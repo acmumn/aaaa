@@ -26,7 +26,7 @@ async def on_message_delete(message):
 
 @client.event
 async def on_message_edit(before, after):
-    if before.author == client.user:
+    if before.author == client.user or before.clean_content == after.clean_content:
         return
     author = before.author.nick or before.author.name
     before_sanitized = before.clean_content
