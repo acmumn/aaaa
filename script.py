@@ -8,7 +8,7 @@ def username(user):
     res = user.name
     if user.nick:
         res = "{} ({})".format(user.nick, user.name)
-    return res
+    return res.replace(":", "")
 
 def sanitize(msg):
     return msg.replace("\n", "\\n").replace("`", " \` ")
