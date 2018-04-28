@@ -22,7 +22,7 @@ async def on_message_delete(message):
         return
     content_sanitized = message.clean_content.replace("\n", "\\n").replace("`", " \` ")
     author = message.author.nick or message.author.name
-    await client.send_message(message.channel, "[deleted] {}: `{}`".format(author, content_sanitized))
+    await client.send_message(message.channel, "[deleted] {}: {}".format(author, content_sanitized))
 
 @client.event
 async def on_message_edit(before, after):
@@ -31,6 +31,6 @@ async def on_message_edit(before, after):
     author = before.author.nick or before.author.name
     before_sanitized = before.clean_content.replace("\n", "\\n").replace("`", " \` ")
     after_sanitized = after.clean_content.replace("\n", "\\n").replace("`", " \` ")
-    await client.send_message(before.channel, "[edited] {}:\nfrom: `{}`\nto: `{}`".format(author, before_sanitized, after_sanitized))
+    await client.send_message(before.channel, "[edited] {}:\nfrom: {}\nto: {}".format(author, before_sanitized, after_sanitized))
 
 client.run(config.token)
