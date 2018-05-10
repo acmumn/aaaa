@@ -37,7 +37,7 @@ async def on_message_delete(message):
     content_sanitized = sanitize(message.clean_content)
     author = username(message.author)
     await client.send_message(get_channel(message),
-        ":wastebasket: {} deleted from #{}: {}".format(author, message.channel.name, content_sanitized))
+        ":wastebasket: {} deleted from <#{}>: {}".format(author, message.channel.id, content_sanitized))
 
 @client.event
 async def on_message_edit(before, after):
@@ -47,6 +47,6 @@ async def on_message_edit(before, after):
     before_sanitized = sanitize(before.clean_content)
     after_sanitized = sanitize(after.clean_content)
     await client.send_message(get_channel(before),
-        ":pencil2: {} edited in #{}:\n**From:** {}\n**To:** {}".format(author, before.channel.name, before_sanitized, after_sanitized))
+        ":pencil2: {} edited in <#{}>:\n**From:** {}\n**To:** {}".format(author, before.channel.id, before_sanitized, after_sanitized))
 
 client.run(config.token)
