@@ -10,6 +10,11 @@ def username(user):
         res = "{} ({})".format(user.nick, user.name)
     return res.replace(":", "")
 
+def get_channel(message):
+    server_id = message.server.id
+    channel_or_none = config.log_channels.get(server_id)
+    return client.get_channel(channel_or_none) or message.channel
+
 def sanitize(msg):
     return msg.replace("\n", "\\n").replace("`", " \` ")
 
@@ -31,7 +36,8 @@ async def on_message_delete(message):
         return
     content_sanitized = sanitize(message.clean_content)
     author = username(message.author)
-    await client.send_message(message.channel, "[deleted] {}: {}".format(author, content_sanitized))
+    await client.send_message(get_channel(message),
+        "[deleted] {}: {}".format(author, content_sanitized))
 
 @client.event
 async def on_message_edit(before, after):
@@ -40,6 +46,7 @@ async def on_message_edit(before, after):
     author = username(before.author)
     before_sanitized = sanitize(before.clean_content)
     after_sanitized = sanitize(after.clean_content)
-    await client.send_message(before.channel, "[edited] {}:\nfrom: {}\nto: {}".format(author, before_sanitized, after_sanitized))
+    await client.send_message(get_channel(before),
+        "[edited] {}:\nfrom: {}\nto: {}".format(author, before_sanitized, after_sanitized))
 
 client.run(config.token)
