@@ -11,8 +11,8 @@ def username(user):
     return res.replace(":", "")
 
 def get_channel(message):
-    server_id = int(message.server.id)
-    channel_or_none = str(config.log_channels.get(server_id))
+    server_id = message.server.id
+    channel_or_none = config.log_channels.get(server_id)
     return client.get_channel(channel_or_none) or message.channel
 
 def sanitize(msg):
